@@ -1,29 +1,75 @@
-import logging, random, requests, json, os, re, asyncio, aiohttp, sys
-from java_ques.java_responses import get_available_java_topics
-from java_ques.java_responses import java_answers
-from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
-from java_ques.java_responses import handle_java_question
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters, CallbackContext
+import logging
+import random
+import requests
+import json
+import os
+import re
+import asyncio
+import aiohttp
+import sys
+from html import escape
+from urllib.parse import urlparse
+
 from bs4 import BeautifulSoup
-from html import escape  
-from telegram.ext import InlineQueryHandler
-from re import IGNORECASE
-from notes_bookmarks import handle_bookmark_folders
-from notes_bookmarks import show_bookmarks_in_folder
-from notes_bookmarks import handle_mynotes, handle_note_read
-from notes_bookmarks import get_all_folders_from_file
+from dotenv import load_dotenv
+load_dotenv()
+
+# Telegram bot components
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    MessageHandler,
+    CallbackQueryHandler,
+    InlineQueryHandler,
+    ContextTypes,
+    CallbackContext,
+    filters
+)
+
+# Java questions
+from java_ques.java_responses import (
+    java_answers,
+    get_available_java_topics,
+    handle_java_question
+)
+
+# Notes & Bookmarks
 from notes_bookmarks import (
     save_note, read_note, list_notes, handle_mynotes, delete_note, edit_note,
     rename_note, send_bullet_template,
     save_bookmark, show_bookmarks, delete_bookmark, edit_bookmark,
-    export_bookmarks, export_category
+    export_bookmarks, export_category,
+    handle_bookmark_folders, show_bookmarks_in_folder, handle_note_read,
+    get_all_folders_from_file
 )
-from urllib.parse import urlparse
-from keep_alive import keep_alive
-keep_alive()  # call the function directly
 
-from dotenv import load_dotenv
-load_dotenv()
+
+
+# import logging, random, requests, json, os, re, asyncio, aiohttp, sys
+# from java_ques.java_responses import get_available_java_topics
+# from java_ques.java_responses import java_answers
+# from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
+# from java_ques.java_responses import handle_java_question
+# from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters, CallbackContext
+# from bs4 import BeautifulSoup
+# from html import escape  
+# from telegram.ext import InlineQueryHandler
+# from re import IGNORECASE
+# from notes_bookmarks import handle_bookmark_folders
+# from notes_bookmarks import show_bookmarks_in_folder
+# from notes_bookmarks import handle_mynotes, handle_note_read
+# from notes_bookmarks import get_all_folders_from_file
+# from notes_bookmarks import (
+#     save_note, read_note, list_notes, handle_mynotes, delete_note, edit_note,
+#     rename_note, send_bullet_template,
+#     save_bookmark, show_bookmarks, delete_bookmark, edit_bookmark,
+#     export_bookmarks, export_category
+# )
+# from urllib.parse import urlparse
+# 
+# from dotenv import load_dotenv
+# load_dotenv()
 
 BOT_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CLIENT_ID = os.getenv("JD_CLIENT_ID")
