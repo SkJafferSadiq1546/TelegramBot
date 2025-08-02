@@ -20,8 +20,9 @@ from notes_bookmarks import (
 )
 from urllib.parse import urlparse
 from keep_alive import keep_alive
+keep_alive()  # call the function directly
+
 from dotenv import load_dotenv
-keep_alive.keep_alive()  # runs server in background
 
 
 load_dotenv()
