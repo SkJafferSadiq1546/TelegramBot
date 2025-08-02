@@ -1,8 +1,6 @@
 python-telegram-bot==20.3
 python-dotenv
 requests
-beautifulsoup4      
-jd-api==0.1.2
-keep_alive      
+beautifulsoup4
 flask
-flask_cors  
+flask_cors
