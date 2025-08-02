@@ -1017,6 +1017,13 @@ async def my_videos(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         ]
                     ])
                 )
+    await message_target.reply_text(
+        "🎯 What would you like to do next?",
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("✅ Done Watching", callback_data="manage_videos")],
+            [InlineKeyboardButton("⬅️ Back to Menu", callback_data="main_menu")]
+        ])
+    )
 
 async def show_video_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.callback_query.answer()
@@ -1630,7 +1637,7 @@ async def main():
         listen="0.0.0.0",
         port=PORT,
         url_path=BOT_TOKEN,
-        webhook_url=f"https://your-render-url.onrender.com/{BOT_TOKEN}",
+        webhook_url=f"https://telegrambot-ritt.onrender.com/{BOT_TOKEN}",
     )
 
 # 🧪 Launch It
