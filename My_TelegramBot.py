@@ -23,9 +23,8 @@ from keep_alive import keep_alive
 keep_alive()  # call the function directly
 
 from dotenv import load_dotenv
-
-
 load_dotenv()
+
 BOT_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CLIENT_ID = os.getenv("JD_CLIENT_ID")
 CLIENT_SECRET = os.getenv("JD_CLIENT_SECRET")
@@ -1492,7 +1491,7 @@ async def handle_text(update, context):
     await update.message.reply_text("🤔 Try /menu to explore features.")
 
 # === Boot the Bot ===
-def main():
+async def main():
     app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
 
     # === Menu Buttons ===
@@ -1576,12 +1575,17 @@ def main():
     print("✅ All handlers registered!")
     print("[DEBUG] Current java_answers keys:", list(java_answers.keys()))
     print("Total keys:", len(java_answers))
-    # print("Keys:\n", list(java_answers.keys())) 
-    # print("Handlers:", app.handlers) 
-    print("🚀 Bot is up and running!")
+    print("🚀 Bot is up and running with WEBHOOK!")
 
-    app.run_polling()
+    # === Run with webhook ===
+    PORT = int(os.environ.get("PORT", 8080))
+    await app.run_webhook(
+        listen="0.0.0.0",
+        port=PORT,
+        url_path=BOT_TOKEN,
+        webhook_url=f"https://your-render-url.onrender.com/{BOT_TOKEN}",
+    )
 
 # 🧪 Launch It
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
