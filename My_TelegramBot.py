@@ -1020,8 +1020,8 @@ async def my_videos(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await message_target.reply_text(
         "🎯 What would you like to do next?",
         reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("✅ Done Watching", callback_data="manage_videos")],
-            [InlineKeyboardButton("⬅️ Back to Menu", callback_data="main_menu")]
+            [InlineKeyboardButton("✅ Done Watching", callback_data="show_video_menu")],
+            [InlineKeyboardButton("⬅️ Back to Menu", callback_data="menu_root")]
         ])
     )
 
