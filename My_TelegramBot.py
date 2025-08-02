@@ -9,6 +9,7 @@ import aiohttp
 import sys
 from html import escape
 from urllib.parse import urlparse
+import nest_asyncio
 
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
@@ -1634,4 +1635,6 @@ async def main():
 
 # 🧪 Launch It
 if __name__ == "__main__":
+    nest_asyncio.apply()
     asyncio.run(main())
+
