@@ -825,8 +825,7 @@ async def handle_handwritten_pdf(update: Update, context: ContextTypes.DEFAULT_T
 
 async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.strip()
-
-    # Optional: Handle things like raw YouTube links (if not already caught)
+    # Optional: Handle things like raw YouTube links (if not already caught) 
     if "youtube.com" in text or "youtu.be" in text:
         await handle_raw_link(update, context)
         return
@@ -843,19 +842,19 @@ async def handle_raw_link(update: Update, context: ContextTypes.DEFAULT_TYPE):
     import re
     text = update.message.text.strip()
     user_id = str(update.effective_user.id)
-
+    
     data = load_video_links()
     data.setdefault(user_id, {})
-
+    
     def is_youtube_link(s):
         pattern = r"(https?://)?(www\.)?(youtube\.com|youtu\.be)/[^\s]+"
         return bool(re.search(pattern, s))
 
     def is_playlist_link(url):
         return "playlist?list=" in url or "list=" in url
-
+    
     if "|" in text:
-        # New Format: Folder | Title | URL
+        # New Format: Folder | Title | URL 
         try:
             folder, title, url = [part.strip() for part in text.split("|", 2)]
             if not is_youtube_link(url):
@@ -872,7 +871,6 @@ async def handle_raw_link(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "⚠️ Format should be: `Folder | Title | YouTube URL`",
                 parse_mode="Markdown"
             )
-
     elif is_youtube_link(text):
         # Old Format: Title + Link in same message
         parts = text.rsplit(" ", 1)
@@ -890,7 +888,6 @@ async def handle_raw_link(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             f"✅ Saved: *{title.strip()}*", parse_mode="Markdown"
         )
-
     else:
         await update.message.reply_text(
             "⚠️ That doesn’t look like a YouTube link.",
@@ -1407,6 +1404,10 @@ async def handle_java_button(update, context):
 
 async def handle_text(update, context):
     text = update.message.text.strip()
+    # 👇 Add this block at the very top
+    if "youtube.com" in text or "youtu.be" in text:
+        await handle_raw_link(update, context)
+        return
     cid = update.message.chat_id
     logging.info(f"[TEXT] {cid} sent: {text}")
 
@@ -1492,6 +1493,8 @@ async def handle_text(update, context):
             await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(kb))
         return
     
+    if "rename_target" in context.user_data:
+        old_filename = context.user_data.pop("rename_target")
     if "rename_target" in context.user_data:
         old_filename = context.user_data.pop("rename_target")
         new_name = update.message.text.strip()
@@ -1608,7 +1611,7 @@ async def main():
     app.add_handler(CommandHandler("exportcategory", export_category))
 
     # === Fallback for other unmatched text ===
-    app.add_handler(MessageHandler(filters.TEXT, handle_text))
+    app.add_handler(MessageHandler(filters.TEXT, message_handler))
 
     # === Java Help Commands ===
     app.add_handler(CommandHandler("javahelp", show_java_help))
