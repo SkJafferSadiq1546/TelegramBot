@@ -45,8 +45,6 @@ from notes_bookmarks import (
     get_all_folders_from_file
 )
 
-
-
 # import logging, random, requests, json, os, re, asyncio, aiohttp, sys
 # from java_ques.java_responses import get_available_java_topics
 # from java_ques.java_responses import java_answers
@@ -152,11 +150,6 @@ async def safe_edit(query=None, text="", update=None, **kwargs):
             logging.warning("[⚠️] safe_edit() has no valid target to send to.")
     except Exception as e:
         logging.error(f"[❌] safe_edit() failed: {e}")
-
-# === Bot Credentials ===
-TELEGRAM_BOT_TOKEN = "7897147389:AAH7eUfVldPGTfbGfQjKVkf3dRN9ja7GJq8"
-JD_CLIENT_ID = "10805f05f923ff4344eb61277a1c2030"
-JD_CLIENT_SECRET = "3e11847dd420b77920e5cf19d3b7dfe114bf077eaf8441c2e2831caff977afde"
 
 # === Game & Quiz Data ===
 guess_data = {}
