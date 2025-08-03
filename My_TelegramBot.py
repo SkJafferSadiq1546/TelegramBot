@@ -1207,8 +1207,8 @@ async def run_jdoodle(update, context):
         lang = parts[0].split()[1]
         code = parts[1]
         res = requests.post("https://api.jdoodle.com/v1/execute", json={
-            "clientId": JD_CLIENT_ID,
-            "clientSecret": JD_CLIENT_SECRET,
+            "clientId": CLIENT_ID,
+            "clientSecret": CLIENT_SECRET,
             "script": code,
             "language": lang,
             "versionIndex": "0"
@@ -1539,7 +1539,7 @@ async def handle_text(update, context):
 
 # === Boot the Bot ===
 async def main():
-    app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
 
     # === Menu Buttons ===
     app.add_handler(CallbackQueryHandler(handle_sort_menu_button, pattern="^sort_menu$"))
